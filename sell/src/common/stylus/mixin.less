@@ -1,0 +1,36 @@
+
+body,html{
+  line-height: 1px;
+  font-weight: 200;
+  font-family: "Pingfang SC",'微软雅黑', "Helvetica Neue", Helvetica, STHeiTi, sans-serif;
+}
+.clearfix{
+  display: inline-block;
+  &:after{
+    display: block;
+    content: '.';
+    height: 0;
+    line-height: 0;
+    clear: both;
+    visibility: hidden;
+  }
+}
+
+.border-1px(@color) {
+  position : relative;
+  &:after{
+    display: block;
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    border-top:1px solid @color;
+    width: 100%;
+    content: ''
+  }
+}
+.bg-image(@url) {
+  background-image: url("@{url}@2x.png");
+  @media(-webkit-min-device-pixel-ratio: 3),(-webkit-max-device-pixel-ratio: 3) {
+    background-image: url("@{url}@3x.png");
+  }
+}
