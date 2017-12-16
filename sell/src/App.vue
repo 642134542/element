@@ -12,9 +12,8 @@
 
 <script>
   import header from 'components/header/header.vue';
-  import data from '.././data.json';
 
-//  const ERR_OK = 0;
+  const ERR_OK = 0;
 
   export default {
     data() {
@@ -23,14 +22,13 @@
       };
     },
     created() {
-//      this.$http.get('/前端项目/sell/data.json').then((response) => {
-//        response = response.body;
-//        if (response.errno === ERR_OK) {
-//          this.seller = response.data;
-//          console.log(this.seller);
-//        }
-//      });
-      this.seller = data.seller;
+      this.$http.get('/api/seller').then((response) => {
+        response = response.body;
+        if (response.errno === ERR_OK) {
+          this.seller = response.data;
+          console.log(this.seller);
+        }
+      });
     },
     components: {
       'v-header': header

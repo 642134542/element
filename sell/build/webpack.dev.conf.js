@@ -2,11 +2,24 @@
 const utils = require('./utils')
 const webpack = require('webpack')
 const config = require('../config')
+
 const merge = require('webpack-merge')
 const baseWebpackConfig = require('./webpack.base.conf')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const FriendlyErrorsPlugin = require('friendly-errors-webpack-plugin')
 const portfinder = require('portfinder')
+
+const express = require('express')
+const app =  express()
+
+var appData = require('../data.json')
+var seller = appData.seller;
+var  goods = appData.goods;
+var ratings = appData.ratings;
+
+var apiRouter = express.Router();
+
+app.use('/api', apiRouter);
 
 const devWebpackConfig = merge(baseWebpackConfig, {
   module: {
@@ -14,7 +27,7 @@ const devWebpackConfig = merge(baseWebpackConfig, {
   },
   // cheap-module-eval-source-map is faster for development
   devtool: config.dev.devtool,
-  
+
   // these devServer options should be customized in /config/index.js
   devServer: {
     clientLogLevel: 'warning',
@@ -32,12 +45,32 @@ const devWebpackConfig = merge(baseWebpackConfig, {
     quiet: true, // necessary for FriendlyErrorsPlugin
     watchOptions: {
       poll: config.dev.poll,
+    },
+    before(app) {
+      app.get('/api/seller',function (req, res){
+        res.json({
+          errno: 0,
+          data: seller
+        })
+      });
+      app.get('/api/goods',function (req, res){
+        res.json({
+          errno: 0,
+          data: goods
+        })
+      });
+      app.get('/api/ratings',function (req, res){
+        res.json({
+          errno: 0,
+          data: ratings
+        })
+      });
     }
   },
   plugins: [
     new webpack.DefinePlugin({
       'process.env': require('../config/dev.env')
-    }), 
+    }),
     new webpack.HotModuleReplacementPlugin(),
     new webpack.NamedModulesPlugin(), // HMR shows correct file names in console on update.
     new webpack.NoEmitOnErrorsPlugin(),
