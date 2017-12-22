@@ -1,4 +1,4 @@
-<template>
+﻿<template>
   <div class="goods">
     <div class="menu-warpper" ref="menu">
       <ul>
@@ -75,6 +75,13 @@
         this.menuScroll = new BScroll(this.$refs.menu, {});
 
         this.foodsScroll = new BScroll(this.$refs.food, {});
+      },
+toggleFavorite(event) {
+        if (!event._constructed) {
+          return;
+        }
+        this.favorite = !this.favorite;
+        savaToLocal(this.seller.id, 'favorite', this.favorite);
       }
     }
   };
